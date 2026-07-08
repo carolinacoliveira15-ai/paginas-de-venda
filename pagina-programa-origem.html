@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programa Origem | Carol Cândida</title>
+  <style>
+    :root {
+      --primary: #005A6E;
+      --accent: #46D6B2;
+      --bg-alt: #F0F7F9;
+      --text: #1C2B30;
+      --text-light: #4A6B76;
+      --border: #C8DDE3;
+      --white: #FFFFFF;
+      --red-light: #F5E0E0;
+      --red: #B84040;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      font-size: 16px;
+      line-height: 1.65;
+      padding-bottom: 80px;
+    }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+    h1 { font-size: clamp(1.65rem, 5.5vw, 2.4rem); font-weight: 800; color: var(--primary); line-height: 1.2; }
+    h2 { font-size: clamp(1.2rem, 4vw, 1.65rem); font-weight: 700; color: var(--primary); line-height: 1.3; }
+    h3 { font-size: 1rem; font-weight: 700; color: var(--primary); }
+    p { margin-bottom: 0.75rem; }
+    section { padding: 48px 0; }
+    section.alt { background: var(--bg-alt); }
+
+    /* Label */
+    .label {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--primary);
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 3px 10px;
+      border-radius: 2px;
+      margin-bottom: 14px;
+    }
+    .accent-line { width: 40px; height: 3px; background: var(--accent); margin: 12px 0 24px; }
+
+    /* Hero */
+    .hero { padding: 52px 0 44px; }
+    .hero h1 { margin-bottom: 18px; }
+    .hero .sub {
+      font-size: 1.05rem;
+      color: var(--text-light);
+      margin-bottom: 32px;
+      line-height: 1.75;
+    }
+
+    /* Buttons */
+    .btn {
+      display: block;
+      background: var(--primary);
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 16px 28px;
+      border-radius: 4px;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #00455A; }
+    .btn-accent { background: var(--accent); color: var(--primary); }
+    .btn-accent:hover { background: #35C4A1; }
+
+    /* Listas */
+    .dot-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .dot-list li { padding-left: 22px; position: relative; color: var(--text-light); }
+    .dot-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+    .check-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    .check-list li { padding: 9px 0 9px 30px; position: relative; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+    .check-list li:last-child { border-bottom: none; }
+    .check-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 800; font-size: 1.05rem; }
+
+    /* Pontos A e B */
+    .points { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+    .point { border-radius: 4px; padding: 18px; border: 1px solid var(--border); }
+    .point-a { border-top: 4px solid var(--red); background: var(--red-light); }
+    .point-b { border-top: 4px solid var(--accent); background: var(--white); }
+    .point h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+    .point-a h3 { color: var(--red); }
+    .point-b h3 { color: var(--accent); }
+    @media (max-width: 520px) { .points { grid-template-columns: 1fr; } }
+
+    /* Cards de sessão */
+    .session-cards { display: flex; flex-direction: column; gap: 14px; }
+    .session-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 4px;
+      padding: 20px;
+    }
+    .session-card.alt { background: var(--bg-alt); }
+    .session-num { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-light); margin-bottom: 4px; }
+    .session-card h3 { font-size: 1rem; margin-bottom: 10px; }
+    .entrega {
+      margin-top: 12px;
+      background: var(--bg-alt);
+      border-left: 3px solid var(--accent);
+      padding: 8px 12px;
+      font-size: 0.88rem;
+      color: var(--primary);
+      font-weight: 600;
+      border-radius: 0 4px 4px 0;
+    }
+    .session-card.alt .entrega { background: var(--white); }
+
+    /* Extras */
+    .extras { margin-top: 24px; background: var(--primary); border-radius: 6px; padding: 20px 24px; }
+    .extras p { color: rgba(255,255,255,0.9); margin-bottom: 6px; font-size: 0.92rem; }
+    .extras p::before { content: '+ '; color: var(--accent); font-weight: 700; }
+    .extras p:last-child { margin-bottom: 0; }
+
+    /* Cronograma */
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th { background: var(--primary); color: var(--white); padding: 10px 12px; text-align: left; }
+    td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg-alt); }
+
+    /* Depoimentos */
+    .depo-placeholder {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 36px 24px;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    /* Bônus */
+    .bonus-list { display: flex; flex-direction: column; gap: 12px; }
+    .bonus-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 18px;
+    }
+    .bonus-num {
+      background: var(--accent);
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .bonus-text h3 { font-size: 0.95rem; margin-bottom: 4px; }
+    .bonus-text p { font-size: 0.88rem; color: var(--text-light); margin: 0; }
+
+    /* Preço */
+    .price-box {
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 8px;
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .price-box .price-label { font-size: 0.82rem; opacity: 0.75; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .price-box .price-main { font-size: clamp(2rem, 8vw, 2.8rem); font-weight: 800; margin-bottom: 4px; }
+    .price-box .price-or { font-size: 0.85rem; opacity: 0.7; margin: 12px 0 6px; }
+    .price-box .price-parcela { font-size: 1rem; opacity: 0.9; margin-bottom: 28px; }
+    .price-box hr { border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 0 0 20px; }
+    .price-box .note { font-size: 0.82rem; opacity: 0.7; margin-top: 14px; }
+
+    /* Bio */
+    .bio-wrap { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+    .bio-photo {
+      width: 130px; height: 130px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; color: var(--text-light); text-align: center;
+      overflow: hidden;
+    }
+    .bio-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .bio-text p { font-size: 0.95rem; }
+
+    /* FAQ */
+    .faq { display: flex; flex-direction: column; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      width: 100%; background: none; border: none;
+      text-align: left; padding: 16px 0;
+      font-size: 0.92rem; font-weight: 600; color: var(--text);
+      cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    }
+    .faq-icon { color: var(--accent); font-size: 1.4rem; flex-shrink: 0; line-height: 1; }
+    .faq-a { display: none; padding: 0 0 16px; color: var(--text-light); font-size: 0.88rem; line-height: 1.75; }
+    .faq-a.open { display: block; }
+
+    /* Garantia */
+    .garantia-box {
+      border: 2px solid var(--accent);
+      border-radius: 8px;
+      padding: 24px;
+    }
+    .garantia-box h3 { margin-bottom: 10px; font-size: 1.05rem; }
+    .garantia-box p { font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem; }
+
+    /* Barra fixa */
+    .fixed-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--primary);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 999;
+      box-shadow: 0 -3px 16px rgba(0,0,0,0.18);
+    }
+    .bar-info { color: var(--white); }
+    .bar-info strong { display: block; font-size: 1rem; }
+    .bar-info span { font-size: 0.75rem; opacity: 0.75; }
+    .fixed-bar .btn { width: auto; padding: 12px 20px; font-size: 0.88rem; white-space: nowrap; flex-shrink: 0; }
+
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mt-24 { margin-top: 24px; }
+    .mb-4 { margin-bottom: 4px; }
+    .center { text-align: center; }
+    .text-light { color: var(--text-light); }
+    .text-sm { font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+<!-- BARRA FIXA -->
+<div class="fixed-bar">
+  <div class="bar-info">
+    <strong>Programa Origem — R$&nbsp;5.900</strong>
+    <span>Consultoria individual | 60 dias</span>
+  </div>
+  <!-- Substitua o href pelo link do seu Calendly ou página de agendamento -->
+  <a href="https://calendar.app.google/NxJS9pwAv5tmLBkE6" class="btn btn-accent">Agendar sessão gratuita</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 1. HERO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="label">Programa Origem</div>
+    <h1>Em 60 dias, pare de ser o gargalo da sua própria empresa.</h1>
+    <div class="accent-line"></div>
+    <p class="sub">
+      Processo documentado. Automação implementada. Equipe que decide sem você.<br>
+      Por quem passou quase 20 anos dentro de operações técnicas como a sua —
+      e implementa junto com a sua equipe, sem parar o negócio.
+    </p>
+    <!-- Substitua o href pelo link do seu Calendly ou página de agendamento -->
+    <a href="https://calendar.app.google/NxJS9pwAv5tmLBkE6" class="btn">Agendar minha Sessão Estratégica gratuita</a>
+    <p class="text-sm text-light mt-8" style="text-align:center">30 minutos. Gratuito. Sem compromisso.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 2. CAMINHO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <div class="label">O problema</div>
+    <h2>Você construiu uma empresa. O problema é que ela não funciona sem você.</h2>
+    <div class="accent-line"></div>
+
+    <ul class="dot-list">
+      <li>Você sai para uma reunião e alguém liga perguntando como resolver uma exceção.</li>
+      <li>Você tirou uma semana de folga e ficou respondendo WhatsApp no segundo dia.</li>
+      <li>Você tem uma equipe — mas no final, tudo passa por você antes de sair.</li>
+      <li>Você cresce em faturamento, mas trabalha mais horas do que há 3 anos.</li>
+    </ul>
+
+    <p class="mt-16">Isso não é falta de competência da equipe. Não é preguiça da sua parte.</p>
+    <p>É o sinal de que a empresa foi construída com o fundador no centro — e que ainda não foi estruturada para funcionar sem ele.</p>
+
+    <div class="points">
+      <div class="point point-a">
+        <h3>Onde você está agora</h3>
+        <ul class="dot-list">
+          <li>Toda decisão urgente passa por você</li>
+          <li>Processos existem na cabeça das pessoas, não no papel</li>
+          <li>Se alguém-chave sair, o conhecimento vai junto</li>
+          <li>Delegar não funciona — a equipe volta em dois dias</li>
+          <li>Faturamento cresce, mas horas trabalhadas também</li>
+        </ul>
+      </div>
+      <div class="point point-b">
+        <h3>Onde você vai chegar</h3>
+        <ul class="dot-list">
+          <li>A equipe resolve o operacional sem te chamar</li>
+          <li>Processos documentados que qualquer pessoa segue</li>
+          <li>Automação elimina o maior retrabalho da operação</li>
+          <li>Painel que mostra como está indo sem você perguntar</li>
+          <li>Empresa que funciona quando você decide não estar</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 3. ENTREGÁVEIS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="label">O programa</div>
+    <h2>6 sessões. 6 entregáveis concretos. 60 dias.</h2>
+    <div class="accent-line"></div>
+    <p class="text-light" style="margin-bottom:24px">Consultoria individual via Zoom. Não é curso. Não é teoria. É implementação dentro da realidade da sua empresa.</p>
+
+    <div class="session-cards">
+
+      <div class="session-card">
+        <div class="session-num">Sessão 1</div>
+        <h3>A Radiografia</h3>
+        <ul class="dot-list">
+          <li>Diagnóstico operacional completo da sua empresa</li>
+          <li>Mapeamento dos gargalos reais (não os que você acha que são)</li>
+          <li>Identificação do processo com maior impacto para estruturar primeiro</li>
+        </ul>
+        <div class="entrega">Diagnóstico Operacional documentado no seu Notion</div>
+      </div>
+
+      <div class="session-card alt">
+        <div class="session-num">Sessão 2</div>
+        <h3>O Processo</h3>
+        <ul class="dot-list">
+          <li>Estruturação do processo prioritário identificado na Sessão 1</li>
+          <li>Documentação que qualquer pessoa da equipe consegue seguir</li>
+          <li>Definição de quem faz o quê, quando e como</li>
+        </ul>
+        <div class="entrega">Processo Documentado — pronto para entregar à equipe</div>
+      </div>
+
+      <div class="session-card">
+        <div class="session-num">Sessão 3</div>
+        <h3>A Implementação</h3>
+        <ul class="dot-list">
+          <li>Acompanhamento da implementação do processo com a equipe</li>
+          <li>Ajustes e bloqueios resolvidos em tempo real</li>
+          <li>Revisão do que funcionou e do que precisa ser adaptado</li>
+        </ul>
+        <div class="entrega">Registro da Implementação — o que mudou na operação real</div>
+      </div>
+
+      <div class="session-card alt">
+        <div class="session-num">Sessão 4</div>
+        <h3>A Automação</h3>
+        <ul class="dot-list">
+          <li>Identificação do maior retrabalho que pode ser automatizado</li>
+          <li>Seleção de ferramenta acessível sem equipe técnica</li>
+          <li>Configuração e teste junto com a sua equipe</li>
+        </ul>
+        <div class="entrega">Automação funcionando — elimina o retrabalho mais pesado</div>
+      </div>
+
+      <div class="session-card">
+        <div class="session-num">Sessão 5</div>
+        <h3>O Painel</h3>
+        <ul class="dot-list">
+          <li>Definição dos indicadores que realmente importam</li>
+          <li>Construção do painel de acompanhamento (simples, acionável, visual)</li>
+          <li>Treinamento da equipe para atualizar e interpretar</li>
+        </ul>
+        <div class="entrega">Painel de Indicadores — você vê como está sem precisar perguntar</div>
+      </div>
+
+      <div class="session-card alt">
+        <div class="session-num">Sessão 6</div>
+        <h3>O Resultado</h3>
+        <ul class="dot-list">
+          <li>Comparação antes × depois de cada entregável</li>
+          <li>Documentação do resultado gerado nos 60 dias</li>
+          <li>Próximos passos para você seguir sem depender de Carol</li>
+        </ul>
+        <div class="entrega">Relatório de Resultado — o que mudou, com números</div>
+      </div>
+
+    </div>
+
+    <div class="extras mt-24">
+      <p>Suporte por WhatsApp Business entre sessões (seg–sex, 8h–18h)</p>
+      <p>Todas as sessões gravadas e disponíveis em até 24h</p>
+      <p>Notion de acompanhamento individual com todos os entregáveis</p>
+      <p>30 dias de suporte após o encerramento do programa</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 4. CRONOGRAMA -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <div class="label">Cronograma</div>
+    <h2>Como são os 60 dias</h2>
+    <div class="accent-line"></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Semana</th>
+          <th>Sessão</th>
+          <th>Foco</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1–2</td><td>Sessão 1 — A Radiografia</td><td>Diagnóstico e prioridade</td></tr>
+        <tr><td>2–3</td><td>Sessão 2 — O Processo</td><td>Documentação do processo prioritário</td></tr>
+        <tr><td>3–4</td><td>Sessão 3 — A Implementação</td><td>Implementação com a equipe</td></tr>
+        <tr><td>4–5</td><td>Sessão 4 — A Automação</td><td>Automação do maior retrabalho</td></tr>
+        <tr><td>5–6</td><td>Sessão 5 — O Painel</td><td>Indicadores e painel de acompanhamento</td></tr>
+        <tr><td>7–8</td><td>Sessão 6 — O Resultado</td><td>Relatório e próximos passos</td></tr>
+      </tbody>
+    </table>
+
+    <p class="text-sm text-light mt-16">Sessões via Zoom · 60 a 90 minutos cada · Horários definidos com você após a contratação</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 5. DEPOIMENTOS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="label">Resultados</div>
+    <h2>O que dizem quem passou pelo processo</h2>
+    <div class="accent-line"></div>
+
+    <!--
+      INSTRUÇÃO PARA CAROL:
+      Substitua este bloco por prints reais de WhatsApp ou LinkedIn.
+      Capturas de tela são mais críveis que texto digitado.
+      Adicione uma tag <img> por depoimento:
+      <img src="depoimento-1.jpg" alt="Depoimento" style="width:100%;border-radius:4px;margin-bottom:12px">
+    -->
+    <div class="depo-placeholder">
+      <p><strong>Espaço para depoimentos</strong></p>
+      <p>Adicione aqui prints de mensagens reais de clientes (WhatsApp, LinkedIn).<br>
+      Depois do primeiro cliente do Programa Origem, solicite autorização e insira a imagem acima.</p>
+      <p class="mt-16" style="font-size:0.8rem">Enquanto não tem depoimentos: use resultados de projetos anteriores como prova —<br>
+      ex: "Automação implementada em empresa de energia que reduziu 40% do retrabalho operacional"</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 6. BÔNUS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <div class="label">Bônus</div>
+    <h2>O que acompanha o Programa Origem</h2>
+    <div class="accent-line"></div>
+
+    <div class="bonus-list">
+      <div class="bonus-item">
+        <div class="bonus-num">Bônus 1</div>
+        <div class="bonus-text">
+          <h3>Template de Notion de Acompanhamento</h3>
+          <p>O mesmo modelo usado nos 60 dias fica com você para sempre — ponto de partida para o próximo processo que quiser estruturar sem depender de Carol.</p>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-num">Bônus 2</div>
+        <div class="bonus-text">
+          <h3>Checklist de Implementação por Etapa</h3>
+          <p>Lista de verificação para cada entregável do programa. A equipe usa para garantir que o processo foi seguido corretamente mesmo sem Carol presente.</p>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-num">Bônus 3</div>
+        <div class="bonus-text">
+          <h3>30 dias de suporte pós-encerramento</h3>
+          <p>Dúvidas sobre o que foi construído continuam sendo respondidas por WhatsApp por 30 dias após a Sessão 6 — para garantir que a implementação se sustenta.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 7. PREÇO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="label">Investimento</div>
+    <h2>Programa Origem</h2>
+    <div class="accent-line"></div>
+
+    <div class="price-box">
+      <div class="price-label">Consultoria individual · 6 sessões · 60 dias</div>
+      <div class="price-main">R$&nbsp;5.900</div>
+      <div class="price-or">ou</div>
+      <div class="price-parcela">50% na contratação + 50% na Sessão 3<br><span style="font-size:0.82rem;opacity:0.7">(R$ 2.950 + R$ 2.950)</span></div>
+      <hr>
+      <!-- Substitua o href pelo link do seu Calendly ou página de agendamento -->
+      <a href="https://calendar.app.google/NxJS9pwAv5tmLBkE6" class="btn btn-accent">Agendar minha Sessão Estratégica gratuita</a>
+      <p class="note">Após clicar, você agenda 30 minutos gratuitos para confirmar o fit antes da contratação.<br>Vagas individuais — disponibilidade limitada.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 8. BIO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <div class="label">Quem vai trabalhar com você</div>
+    <h2>Carol Cândida</h2>
+    <div class="accent-line"></div>
+
+    <div class="bio-wrap">
+      <div class="bio-photo">
+        <img src="foto-carol.png" alt="Carol Cândida">
+      </div>
+      <div class="bio-text">
+        <p>Carol Cândida trabalhou por quase 20 anos dentro de operações técnicas B2B — energia elétrica, telecomunicações, TI, automação e infraestrutura. Não como observadora: como quem estruturou processos, liderou times e implementou transformações digitais em operações reais, com pressão e prazo.</p>
+        <p>Saiu do CLT para colocar na prática o que passou duas décadas aprendendo: que a maioria dos problemas de PMEs técnicas não é falta de talento — é falta de estrutura para o talento virar operação replicável.</p>
+        <p>O Programa Origem é exatamente esse trabalho: entrar na operação, identificar o que trava, documentar o que precisa ser documentado e implementar junto — sem parar o negócio, sem relatório para gaveta.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 9. FAQ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="label">Dúvidas frequentes</div>
+    <h2>Perguntas frequentes</h2>
+    <div class="accent-line"></div>
+
+    <div class="faq">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Consultor que não conhece meu setor vai me dar solução genérica."
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Carol passou quase 20 anos dentro de operações técnicas B2B — energia, telecom, TI, automação, engenharia. Não é generalista. O método do Programa Origem foi desenhado especificamente para PMEs com operação técnica, onde processos têm exceções reais e a equipe é pequena e multifunção. Se o seu setor for diferente, a Sessão Estratégica gratuita vai deixar claro se faz sentido avançar.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Já tentei delegar antes. A equipe me liga de volta em dois dias."
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Delegar sem processo documentado é pedir para a equipe adivinhar. A equipe liga de volta porque não tem o contexto que você tem na cabeça. O Programa Origem documenta exatamente esse contexto — e implementa junto com a equipe, não entrega um manual para eles descobrirem sozinhos.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Vou receber um relatório bonito e o problema vai continuar igual."
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Nenhum entregável do Programa Origem é relatório de prateleira. Cada sessão entrega algo que entra em uso imediato: processo que a equipe começa a seguir, automação que elimina retrabalho, painel que você começa a consultar. O Relatório de Resultado da Sessão 6 é a comparação do antes e depois — não o início do trabalho.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Agora não é o momento — tenho projeto pra entregar."
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">A implementação é feita em paralelo com o negócio rodando. As sessões são espaçadas para você ter tempo de aplicar entre elas. Não existe momento perfeito para estruturar uma operação — e quanto mais o negócio cresce sem estrutura, maior o esforço depois para reorganizar.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Processo vai engessar o que hoje funciona na flexibilidade."
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Processo bem feito não engessa — libera. O objetivo não é transformar sua empresa em burocracia. É documentar o que já funciona para que outras pessoas consigam fazer sem você explicar toda vez. A flexibilidade continua existindo. O que muda é que ela deixa de depender da sua presença.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Qual é o meu compromisso de tempo?"
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">6 sessões de 60 a 90 minutos ao longo de 60 dias. Entre sessões: 1 pergunta de trabalho para responder por escrito (15 a 30 minutos). Sem lições de casa extensas. O trabalho pesado é feito nas sessões, junto com Carol.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 10. GARANTIA -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <div class="label">Garantia</div>
+    <h2>O que acontece se não funcionar</h2>
+    <div class="accent-line"></div>
+
+    <div class="garantia-box">
+      <h3>Sessão Estratégica gratuita antes de qualquer pagamento</h3>
+      <p>Existe uma sessão de 30 minutos gratuita antes da contratação exatamente para garantir que o fit é real. Se Carol entender que o Programa Origem não é o que você precisa neste momento, ela vai falar isso nessa sessão — não depois.</p>
+      <p class="mt-16"><strong>Após a Sessão 2 realizada:</strong> sem reembolso. A partir desse ponto, o diagnóstico completo e o processo documentado já foram entregues e são de sua propriedade. Não é possível devolver o trabalho intelectual realizado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA final -->
+<section>
+  <div class="container center">
+    <div class="label">Próximo passo</div>
+    <h2>Pronto para parar de ser o gargalo?</h2>
+    <div class="accent-line" style="margin:12px auto 24px"></div>
+    <p class="text-light" style="margin-bottom:28px">30 minutos. Gratuito. Sem compromisso. Se fizer sentido, avançamos juntos.</p>
+    <!-- Substitua o href pelo link do seu Calendly ou página de agendamento -->
+    <a href="https://calendar.app.google/NxJS9pwAv5tmLBkE6" class="btn" style="max-width:420px;margin:0 auto">Agendar minha Sessão Estratégica gratuita</a>
+  </div>
+</section>
+
+<script>
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const icon = btn.querySelector('.faq-icon');
+    const isOpen = answer.classList.contains('open');
+    // fecha todos
+    document.querySelectorAll('.faq-a').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.faq-icon').forEach(el => el.textContent = '+');
+    // abre o clicado (se estava fechado)
+    if (!isOpen) {
+      answer.classList.add('open');
+      icon.textContent = '−';
+    }
+  }
+</script>
+
+</body>
+</html>
