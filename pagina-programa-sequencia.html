@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programa Sequência | Carol Cândida</title>
+  <style>
+    :root {
+      --primary: #005A6E;
+      --accent: #46D6B2;
+      --bg-alt: #F0F7F9;
+      --text: #1C2B30;
+      --text-light: #4A6B76;
+      --border: #C8DDE3;
+      --white: #FFFFFF;
+      --red-light: #F5E0E0;
+      --red: #B84040;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      font-size: 16px;
+      line-height: 1.65;
+      padding-bottom: 80px;
+    }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+    h1 { font-size: clamp(1.65rem, 5.5vw, 2.4rem); font-weight: 800; color: var(--primary); line-height: 1.2; }
+    h2 { font-size: clamp(1.2rem, 4vw, 1.65rem); font-weight: 700; color: var(--primary); line-height: 1.3; }
+    h3 { font-size: 1rem; font-weight: 700; color: var(--primary); }
+    p { margin-bottom: 0.75rem; }
+    section { padding: 48px 0; }
+    section.alt { background: var(--bg-alt); }
+
+    .label {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--primary);
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 3px 10px;
+      border-radius: 2px;
+      margin-bottom: 14px;
+    }
+    .accent-line { width: 40px; height: 3px; background: var(--accent); margin: 12px 0 24px; }
+
+    /* Badge beta */
+    .beta-badge {
+      display: inline-block;
+      background: #FFF3CD;
+      color: #856404;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 10px;
+      border-radius: 2px;
+      border: 1px solid #FFE69C;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    /* Hero */
+    .hero { padding: 52px 0 44px; }
+    .hero h1 { margin-bottom: 18px; }
+    .hero .sub { font-size: 1.05rem; color: var(--text-light); margin-bottom: 32px; line-height: 1.75; }
+
+    /* Vagas */
+    .vagas-bar {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      font-size: 0.88rem;
+    }
+    .vagas-dot { width: 10px; height: 10px; border-radius: 50%; background: #E74C3C; flex-shrink: 0; }
+    .vagas-bar strong { color: var(--text); }
+    .vagas-bar span { color: var(--text-light); }
+
+    /* Buttons */
+    .btn {
+      display: block;
+      background: var(--primary);
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 16px 28px;
+      border-radius: 4px;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #00455A; }
+    .btn-accent { background: var(--accent); color: var(--primary); }
+    .btn-accent:hover { background: #35C4A1; }
+
+    /* Listas */
+    .dot-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .dot-list li { padding-left: 22px; position: relative; color: var(--text-light); }
+    .dot-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+    /* Pontos A e B */
+    .points { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+    .point { border-radius: 4px; padding: 18px; border: 1px solid var(--border); }
+    .point-a { border-top: 4px solid var(--red); background: var(--red-light); }
+    .point-b { border-top: 4px solid var(--accent); background: var(--white); }
+    .point h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+    .point-a h3 { color: var(--red); }
+    .point-b h3 { color: var(--accent); }
+    @media (max-width: 520px) { .points { grid-template-columns: 1fr; } }
+
+    /* Dado de mercado */
+    .stat-box {
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 6px;
+      padding: 20px 24px;
+      margin-top: 24px;
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+    .stat-box strong { color: var(--accent); }
+
+    /* Cards de semana */
+    .week-cards { display: flex; flex-direction: column; gap: 14px; }
+    .week-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 4px;
+      padding: 20px;
+    }
+    .week-card.alt { background: var(--bg-alt); }
+    .week-num { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-light); margin-bottom: 4px; }
+    .week-card h3 { font-size: 1rem; margin-bottom: 10px; }
+    .entrega {
+      margin-top: 12px;
+      background: var(--bg-alt);
+      border-left: 3px solid var(--accent);
+      padding: 8px 12px;
+      font-size: 0.88rem;
+      color: var(--primary);
+      font-weight: 600;
+      border-radius: 0 4px 4px 0;
+    }
+    .week-card.alt .entrega { background: var(--white); }
+    .entrega-multi { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+    .entrega-multi .entrega { margin-top: 0; }
+
+    /* Extras */
+    .extras { margin-top: 24px; background: var(--primary); border-radius: 6px; padding: 20px 24px; }
+    .extras p { color: rgba(255,255,255,0.9); margin-bottom: 6px; font-size: 0.92rem; }
+    .extras p::before { content: '+ '; color: var(--accent); font-weight: 700; }
+    .extras p:last-child { margin-bottom: 0; }
+
+    /* Cronograma */
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th { background: var(--primary); color: var(--white); padding: 10px 12px; text-align: left; }
+    td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg-alt); }
+
+    /* Depoimentos */
+    .depo-placeholder {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 36px 24px;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    /* Bônus */
+    .bonus-list { display: flex; flex-direction: column; gap: 12px; }
+    .bonus-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 18px;
+    }
+    .bonus-num {
+      background: var(--accent);
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .bonus-text h3 { font-size: 0.95rem; margin-bottom: 4px; }
+    .bonus-text p { font-size: 0.88rem; color: var(--text-light); margin: 0; }
+
+    /* Preço */
+    .price-box {
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 8px;
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .price-box .price-tag {
+      display: inline-block;
+      background: #FFF3CD;
+      color: #856404;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      margin-bottom: 16px;
+    }
+    .price-box .price-label { font-size: 0.82rem; opacity: 0.75; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .price-box .price-main { font-size: clamp(2rem, 8vw, 2.8rem); font-weight: 800; margin-bottom: 4px; }
+    .price-box .price-or { font-size: 0.85rem; opacity: 0.7; margin: 12px 0 6px; }
+    .price-box .price-parcela { font-size: 1rem; opacity: 0.9; margin-bottom: 28px; }
+    .price-box hr { border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 0 0 20px; }
+    .price-box .note { font-size: 0.82rem; opacity: 0.7; margin-top: 14px; line-height: 1.6; }
+    .price-full { text-decoration: line-through; opacity: 0.5; font-size: 0.9rem; }
+
+    /* Bio */
+    .bio-wrap { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+    .bio-photo {
+      width: 130px; height: 130px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; color: var(--text-light); text-align: center;
+      overflow: hidden;
+    }
+    .bio-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .bio-text p { font-size: 0.95rem; }
+
+    /* FAQ */
+    .faq { display: flex; flex-direction: column; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      width: 100%; background: none; border: none;
+      text-align: left; padding: 16px 0;
+      font-size: 0.92rem; font-weight: 600; color: var(--text);
+      cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    }
+    .faq-icon { color: var(--accent); font-size: 1.4rem; flex-shrink: 0; line-height: 1; }
+    .faq-a { display: none; padding: 0 0 16px; color: var(--text-light); font-size: 0.88rem; line-height: 1.75; }
+    .faq-a.open { display: block; }
+
+    /* Garantia */
+    .garantia-box { border: 2px solid var(--accent); border-radius: 8px; padding: 24px; }
+    .garantia-box h3 { margin-bottom: 10px; font-size: 1.05rem; }
+    .garantia-box p { font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem; }
+
+    /* Barra fixa */
+    .fixed-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--primary);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 999;
+      box-shadow: 0 -3px 16px rgba(0,0,0,0.18);
+    }
+    .bar-info { color: var(--white); }
+    .bar-info strong { display: block; font-size: 1rem; }
+    .bar-info span { font-size: 0.75rem; opacity: 0.75; }
+    .fixed-bar .btn { width: auto; padding: 12px 20px; font-size: 0.88rem; white-space: nowrap; flex-shrink: 0; }
+
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mt-24 { margin-top: 24px; }
+    .center { text-align: center; }
+    .text-light { color: var(--text-light); }
+    .text-sm { font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+<!-- BARRA FIXA -->
+<div class="fixed-bar">
+  <div class="bar-info">
+    <strong>Programa Sequência — R$&nbsp;1.500 <span style="font-size:0.7rem;opacity:0.7;font-weight:400">turma beta</span></strong>
+    <!-- Substitua 6 pelo número de vagas restantes -->
+    <span>Mentoria em grupo · 6 vagas disponíveis</span>
+  </div>
+  <!-- Substitua o href pelo link de pagamento do Kiwify -->
+  <a href="https://pay.kiwify.com.br/dUFGFMZ" class="btn btn-accent">Garantir minha vaga</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 1. HERO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="label">Programa Sequência</div>
+    <h1>Pare de testar IA.<br>Comece a implementar.</h1>
+    <div class="accent-line"></div>
+    <p class="sub">
+      Em 6 semanas, 1 caso de uso real funcionando no seu negócio,
+      ROI documentado e método para avaliar os próximos —
+      sem precisar de equipe técnica, sem gastar errado,
+      sem seguir cada novidade do mercado.
+    </p>
+
+    <!-- Vagas limitadas -->
+    <div class="vagas-bar">
+      <div class="vagas-dot"></div>
+      <!-- Substitua 6 pelo número de vagas restantes -->
+      <div><strong>6 vagas disponíveis</strong> <span>· Turma de empreendedoras · Início em 29/07/2026</span></div>
+    </div>
+
+    <!-- Substitua o href pelo link de pagamento do Kiwify -->
+    <a href="https://pay.kiwify.com.br/dUFGFMZ" class="btn">Garantir minha vaga — R$&nbsp;1.500</a>
+    <p class="text-sm text-light mt-8" style="text-align:center">Ou 3× R$&nbsp;500 sem juros · Turma beta · Preço sobe na próxima turma</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 2. CAMINHO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <div class="label">O problema</div>
+    <h2>Você já tentou IA. O número que prova que funcionou, você ainda não tem.</h2>
+    <div class="accent-line"></div>
+
+    <ul class="dot-list">
+      <li>Você usa ChatGPT para escrever textos, resumir reuniões, fazer listas.</li>
+      <li>Você testou ferramentas, fez cursos, acompanhou tendências do mercado.</li>
+      <li>Quando precisou mostrar o impacto com um número concreto — não tinha.</li>
+      <li>O processo continua manual, o retrabalho continua igual, o tempo não abriu.</li>
+    </ul>
+
+    <p class="mt-16">Isso não é falta de comprometimento. Não é falta de ferramentas — você provavelmente já tem acesso a mais do que está conseguindo implementar.</p>
+    <p>É o sinal de que você está no estágio mais comum da adoção de IA: o estágio de teste permanente — onde nada chega à implementação real.</p>
+
+    <div class="stat-box">
+      <strong>96%</strong> das PMEs brasileiras dizem usar IA generativa.<br>
+      Apenas <strong>5%</strong> dos pilotos geram impacto mensurável.<br>
+      A diferença entre os dois grupos não é ferramenta. É método de implementação.
+    </div>
+
+    <div class="points">
+      <div class="point point-a">
+        <h3>Onde você está agora</h3>
+        <ul class="dot-list">
+          <li>Uso básico que não mudou nenhum número do negócio</li>
+          <li>Várias ferramentas testadas, nenhuma integrada ao processo</li>
+          <li>Sem saber qual caso de uso realmente vale a pena</li>
+          <li>Medo de investir errado de novo</li>
+          <li>Sem equipe técnica para implementar</li>
+        </ul>
+      </div>
+      <div class="point point-b">
+        <h3>Onde você vai chegar</h3>
+        <ul class="dot-list">
+          <li>1 caso de uso real implementado e rodando</li>
+          <li>ROI calculado e documentado: número concreto</li>
+          <li>Método para avaliar os próximos sem especialista</li>
+          <li>Clareza sobre o que não vale a pena testar</li>
+          <li>Autonomia para seguir sozinha depois</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 3. ENTREGÁVEIS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="label">O programa</div>
+    <h2>6 semanas. 6 sessões ao vivo. 1 implementação real.</h2>
+    <div class="accent-line"></div>
+    <p class="text-light" style="margin-bottom:24px">Mentoria em grupo pequeno (até 8 empreendedoras) via Zoom. Cada semana: sessão ao vivo de 90 minutos + material de apoio + tarefa de aplicação.</p>
+
+    <div class="week-cards">
+
+      <div class="week-card">
+        <div class="week-num">Semana 1</div>
+        <h3>O Problema Certo</h3>
+        <ul class="dot-list">
+          <li>Como identificar casos de uso de IA com real potencial de resultado</li>
+          <li>Por que a maioria das implementações falha antes de começar</li>
+          <li>Mapeamento dos processos da sua operação com lente de IA</li>
+        </ul>
+        <div class="entrega">Mapa de Casos de Uso — seus processos avaliados com critério real</div>
+      </div>
+
+      <div class="week-card alt">
+        <div class="week-num">Semana 2</div>
+        <h3>A Entrada do Processo</h3>
+        <ul class="dot-list">
+          <li>Como especificar um caso de uso para a implementação funcionar</li>
+          <li>Definição de escopo, insumos, saídas e critério de sucesso</li>
+          <li>Preparação para a escolha da ferramenta certa</li>
+        </ul>
+        <div class="entrega">Especificação do Caso de Uso — o briefing do seu projeto de IA</div>
+      </div>
+
+      <div class="week-card">
+        <div class="week-num">Semana 3</div>
+        <h3>A Escolha com Critério</h3>
+        <ul class="dot-list">
+          <li>Os 6 critérios para avaliar qualquer ferramenta de IA (além do hype)</li>
+          <li>Como escolher sem precisar de equipe técnica</li>
+          <li>Como usar IA com segurança: dados, privacidade e riscos operacionais</li>
+        </ul>
+        <div class="entrega-multi">
+          <div class="entrega">Planilha de Avaliação de Ferramenta com os 6 critérios</div>
+          <div class="entrega">Guia de Uso Seguro de IA — o que nunca colocar em ferramentas externas</div>
+        </div>
+      </div>
+
+      <div class="week-card alt">
+        <div class="week-num">Semana 4</div>
+        <h3>Colocando em Operação</h3>
+        <ul class="dot-list">
+          <li>Protocolo de implementação passo a passo para o seu caso</li>
+          <li>Como integrar IA ao processo existente sem parar a operação</li>
+          <li>Testes, ajustes e os erros mais comuns na primeira implementação</li>
+        </ul>
+        <div class="entrega">Protocolo de Implementação — roteiro para colocar em operação</div>
+      </div>
+
+      <div class="week-card">
+        <div class="week-num">Semana 5</div>
+        <h3>O Número que Justifica</h3>
+        <ul class="dot-list">
+          <li>Como calcular ROI de uma implementação de IA (mesmo sem dados perfeitos)</li>
+          <li>Coleta de evidências e documentação do antes × depois</li>
+          <li>Como apresentar o impacto para cliente, sócio ou parceiro</li>
+        </ul>
+        <div class="entrega">Planilha de Cálculo de ROI com o número real da sua implementação</div>
+      </div>
+
+      <div class="week-card alt">
+        <div class="week-num">Semana 6</div>
+        <h3>Do Primeiro para os Próximos</h3>
+        <ul class="dot-list">
+          <li>Como usar o método para avaliar e priorizar os próximos casos</li>
+          <li>Construção do roadmap de IA para os próximos 6 meses</li>
+          <li>Encerramento: o que cada participante implementou e o que vem depois</li>
+        </ul>
+        <div class="entrega">Roadmap de IA — próximos casos priorizados com critério</div>
+      </div>
+
+    </div>
+
+    <div class="extras mt-24">
+      <p>Grupo de WhatsApp da turma: dúvidas de implementação (seg–sex, até 24h)</p>
+      <p>Todas as sessões gravadas no Kiwify — acesso durante e após o programa</p>
+      <p>Templates prontos: Mapa, Especificação, Planilha ROI, Roadmap</p>
+      <p>Acesso ao conteúdo após o encerramento da turma</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 4. CRONOGRAMA -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <div class="label">Cronograma</div>
+    <h2>Como são as 6 semanas</h2>
+    <div class="accent-line"></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Semana</th>
+          <th>Sessão ao vivo</th>
+          <th>Entregável</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>O Problema Certo</td><td>Mapa de Casos de Uso</td></tr>
+        <tr><td>2</td><td>A Entrada do Processo</td><td>Especificação do Caso de Uso</td></tr>
+        <tr><td>3</td><td>A Escolha com Critério</td><td>Planilha de Avaliação + Guia de Uso Seguro</td></tr>
+        <tr><td>4</td><td>Colocando em Operação</td><td>Protocolo de Implementação</td></tr>
+        <tr><td>5</td><td>O Número que Justifica</td><td>Planilha de Cálculo de ROI</td></tr>
+        <tr><td>6</td><td>Do Primeiro para os Próximos</td><td>Roadmap de IA</td></tr>
+      </tbody>
+    </table>
+
+    <p class="text-sm text-light mt-16">Sessões ao vivo via Zoom · 90 minutos · toda semana no mesmo dia e horário · Início: 29/07/2026</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 5. DEPOIMENTOS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="label">Resultados</div>
+    <h2>O que dizem quem passou pelo processo</h2>
+    <div class="accent-line"></div>
+
+    <!--
+      INSTRUÇÃO PARA CAROL:
+      Substitua este bloco por prints reais de WhatsApp ou LinkedIn.
+      Adicione uma tag <img> por depoimento:
+      <img src="depoimento-1.jpg" alt="Depoimento" style="width:100%;border-radius:4px;margin-bottom:12px">
+
+      Antes da primeira turma: use resultados de projetos anteriores como prova —
+      ex: "Automação implementada em empresa de [setor] — 2024"
+    -->
+    <div class="depo-placeholder">
+      <p><strong>Espaço para depoimentos</strong></p>
+      <p>Adicione aqui prints de mensagens reais de clientes (WhatsApp, LinkedIn).<br>
+      Após a primeira turma do Programa Sequência, solicite autorização e insira a imagem acima.</p>
+      <p class="mt-16" style="font-size:0.8rem">Enquanto não tem depoimentos do programa: use resultados de projetos anteriores de implementação de IA ou automação que você conduziu — com setor, resultado e ano.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 6. BÔNUS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <div class="label">Bônus</div>
+    <h2>O que acompanha o Programa Sequência</h2>
+    <div class="accent-line"></div>
+
+    <div class="bonus-list">
+      <div class="bonus-item">
+        <div class="bonus-num">Bônus 1</div>
+        <div class="bonus-text">
+          <h3>Sessão Individual de 30 minutos com Carol</h3>
+          <p>Entre as semanas 2 e 3, cada participante tem 30 minutos individuais para revisar a especificação do seu caso de uso com Carol — antes da semana mais técnica. Sem isso, o risco de chegar na implementação com o problema errado é alto.</p>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-num">Bônus 2</div>
+        <div class="bonus-text">
+          <h3>Guia de Uso Seguro de IA</h3>
+          <p>O que nunca colocar em ferramentas externas de IA. Como preservar dados de clientes, informações financeiras e estratégicas enquanto usa IA na operação. Entregue na Semana 3, disponível na área de membros.</p>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-num">Bônus 3</div>
+        <div class="bonus-text">
+          <h3>Acesso permanente à área de membros</h3>
+          <p>Gravações, materiais e templates ficam disponíveis após o encerramento da turma. Você pode revisitar o método quando for implementar o próximo caso de uso do seu Roadmap de IA.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 7. PREÇO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="label">Investimento</div>
+    <h2>Programa Sequência</h2>
+    <div class="accent-line"></div>
+
+    <div class="price-box">
+      <div class="price-tag">✦ Turma beta — preço de lançamento</div>
+      <div class="price-label">Mentoria em grupo · 6 semanas · até 8 participantes</div>
+      <div class="price-main">R$&nbsp;1.500</div>
+      <div class="price-or">ou</div>
+      <div class="price-parcela">3× R$&nbsp;500 sem juros no cartão</div>
+      <hr>
+      <!-- Substitua o href pelo link de pagamento do Kiwify -->
+      <a href="https://pay.kiwify.com.br/dUFGFMZ" class="btn btn-accent">Garantir minha vaga agora</a>
+      <p class="note">
+        Esta é a turma beta — preço de lançamento em troca de feedback real e autorização de case.<br>
+        A partir da 2ª turma, o valor passa para R$&nbsp;2.200.<br>
+        <!-- Substitua 6 pelo número de vagas restantes e 29/07/2026 pela data limite -->
+        6 vagas disponíveis · Inscrições até 29/07/2026
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 8. BIO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <div class="label">Quem vai conduzir as 6 semanas</div>
+    <h2>Carol Cândida</h2>
+    <div class="accent-line"></div>
+
+    <div class="bio-wrap">
+      <div class="bio-photo">
+        <!--
+          Substitua pelo caminho da sua foto:
+          <img src="foto-carol.png" alt="Carol Cândida">
+        -->
+        <span>Adicione sua<br>foto aqui</span>
+      </div>
+      <div class="bio-text">
+        <p>Carol Cândida trabalhou por quase 20 anos em operações técnicas B2B — energia elétrica, telecomunicações, TI, automação e transformação digital. Não como analista de tendência: como quem implementou projetos reais, com pressão, orçamento limitado e equipe que precisava de resultado agora.</p>
+        <p>Saiu do CLT para trabalhar exclusivamente com o problema que mais encontrou ao longo de duas décadas: empresas com pessoas competentes, ferramentas disponíveis e zero método para transformar isso em resultado mensurável.</p>
+        <p>O método do Programa Sequência não é sobre ferramentas. É sobre o processo de fazer a ferramenta certa funcionar no contexto certo — com ROI documentado para provar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 9. FAQ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="label">Dúvidas frequentes</div>
+    <h2>Perguntas frequentes</h2>
+    <div class="accent-line"></div>
+
+    <div class="faq">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Já fiz curso de IA e aprendi ferramenta. Os números não mudaram."
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Cursos ensinam ferramentas. O Programa Sequência ensina implementação. A diferença: ao sair de um curso, você sabe usar a ferramenta. Ao sair do Programa Sequência, você tem 1 caso de uso rodando, ROI calculado e método para avaliar os próximos. São coisas diferentes. A maioria dos cursos de IA para no ponto onde o trabalho real começa.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Não tenho equipe técnica para implementar o que for sugerido."
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">O Programa Sequência foi desenhado para quem não tem equipe técnica. Os casos de uso selecionados na Semana 1 seguem um critério explícito: implementáveis por você (ou pela sua equipe não-técnica) com ferramentas disponíveis no mercado. Se precisar de desenvolvedor para implementar, não é o caso de uso certo para este momento.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Meu negócio é muito específico — os exemplos dos cursos nunca encaixam."
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">O trabalho é feito com o seu caso de uso real, no seu negócio. Não com exemplos genéricos de slide. A Sessão Individual da Semana 2–3 existe exatamente para Carol revisar a especificação do seu caso específico antes da implementação. O grupo é pequeno (até 8 pessoas) para que haja espaço para o seu contexto — não apesar dele.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Não tenho 6 semanas para mais um programa que promete e não entrega."
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">O compromisso semanal é 1 sessão de 90 minutos + aplicação prática. Não é mais um programa de conteúdo para consumir. É a implementação real sendo feita ao longo de 6 semanas — com suporte para desbloquear o que travar. O que você entrega ao final não é "mais conhecimento sobre IA" — é 1 caso funcionando e ROI documentado.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Medo de gastar errado de novo — já aconteceu antes."
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Gastar errado em IA acontece quando você paga para aprender ferramenta sem saber qual problema implementar com ela. O Programa Sequência começa pela escolha do caso de uso certo — antes de qualquer ferramenta. Se o caso de uso não tiver ROI real para ser calculado, você vai saber isso antes de implementar.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "O que é ROI de IA e como calcula?"
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">ROI de IA é a comparação do custo da implementação com o valor gerado — em tempo economizado, erros reduzidos, volume aumentado ou custo eliminado. A Semana 5 entrega a planilha de cálculo e o método para coletar as evidências antes e depois da implementação. Você sai com o número documentado, não estimado.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "O que é a turma beta e o que muda para mim?"
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Turma beta significa que é a primeira turma — o conteúdo e os entregáveis são os mesmos. Em troca do preço menor (R$ 1.500 vs R$ 2.200 a partir da 2ª turma), Carol pede feedback real ao longo das semanas e autorização para usar o seu resultado como case. Você tem o mesmo programa, com atenção ainda maior de Carol por ser a primeira turma.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 10. GARANTIA -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <div class="label">Garantia</div>
+    <h2>Garantia de 7 dias</h2>
+    <div class="accent-line"></div>
+
+    <div class="garantia-box">
+      <h3>7 dias corridos para solicitar reembolso total</h3>
+      <p>Compra de produto digital: direito a reembolso total sem necessidade de justificativa nos primeiros 7 dias corridos após a compra (Código de Defesa do Consumidor — Art. 49).</p>
+      <p class="mt-16"><strong>Após a Sessão 1 ao vivo:</strong> sem reembolso proporcional das semanas restantes. A garantia existe para proteger sua decisão de compra — não para testar o programa de graça até a semana onde o trabalho mais valioso acontece.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA final -->
+<section>
+  <div class="container center">
+    <div class="label">Próximo passo</div>
+    <h2>Pronto para parar de testar e começar a implementar?</h2>
+    <div class="accent-line" style="margin:12px auto 24px"></div>
+    <p class="text-light" style="margin-bottom:6px">Turma beta · até 8 vagas · R$ 1.500 ou 3× R$ 500</p>
+    <p class="text-light text-sm" style="margin-bottom:28px">Preço passa para R$ 2.200 a partir da 2ª turma</p>
+    <!-- Substitua o href pelo link de pagamento do Kiwify -->
+    <a href="https://pay.kiwify.com.br/dUFGFMZ" class="btn" style="max-width:420px;margin:0 auto">Garantir minha vaga agora</a>
+  </div>
+</section>
+
+<script>
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const icon = btn.querySelector('.faq-icon');
+    const isOpen = answer.classList.contains('open');
+    document.querySelectorAll('.faq-a').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.faq-icon').forEach(el => el.textContent = '+');
+    if (!isOpen) {
+      answer.classList.add('open');
+      icon.textContent = '−';
+    }
+  }
+</script>
+
+</body>
+</html>
